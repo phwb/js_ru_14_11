@@ -3,15 +3,15 @@ import Article from './Article'
 import accordion from '../decorators/accordion'
 
 const ArticleList = props => {
-  const { articles, openArticle, openArticleId } = props
+  const { articles, openArticle, openArticleId, prevArticleId } = props
 
   const articleItems = articles.map(article => (
     <li key = {article.id}>
-        <Article
-          article = {article}
-          isOpen = {article.id === openArticleId}
-          toggleOpen = {openArticle(article.id)}
-        />
+      <Article
+        article = {article}
+        isOpen = {article.id === openArticleId && openArticleId !== prevArticleId}
+        toggleOpen = {openArticle(article.id)}
+      />
     </li>
   ))
 
