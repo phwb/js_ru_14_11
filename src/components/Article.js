@@ -7,6 +7,7 @@ class Article extends Component {
     super()
     this.state = {
       isOpen: false,
+      //компонент перегруженный выходит, внеси этот стейт в CommentList
       isCommentOpen: false
     }
   }
