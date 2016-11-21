@@ -1,4 +1,4 @@
-import React, { Component }  from 'react'
+import React, { Component, PropTypes }  from 'react'
 import Article from './Article'
 import accordion from '../decorators/accordion'
 
@@ -20,6 +20,13 @@ const ArticleList = props => {
       {articleItems}
     </ul>
   )
+}
+
+ArticleList.propTypes = {
+  articles: PropTypes.arrayOf(PropTypes.object).isRequired,
+  openArticle: PropTypes.func.isRequired,
+  openArticleId: PropTypes.string,
+  prevArticleId: PropTypes.string
 }
 
 export default accordion(ArticleList)
