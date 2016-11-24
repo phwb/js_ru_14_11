@@ -6,7 +6,6 @@ export default (Component) => class Accordion extends React.Component {
   state = {
     //не привязывайся к названиям сущностей в декораторах, вся их суть в том, чтобы использовать с разными компонентами и данными. Сделай openItemId
     //+ prevArticleId лишнее для этой задачи
-    prevArticleId: null,
     openArticleId: null
   }
 
@@ -17,6 +16,7 @@ export default (Component) => class Accordion extends React.Component {
         : id
     })
 
+    // сохраняю id статьи по которой кликнул в замыкании, а не в стейте
     prevArticleId = id === prevArticleId
       ? null
       : id
