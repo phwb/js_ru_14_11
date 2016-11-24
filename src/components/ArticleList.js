@@ -3,13 +3,13 @@ import Article from './Article'
 import accordion from '../decorators/accordion'
 
 const ArticleList = props => {
-  const { articles, openArticle, openArticleId, prevArticleId } = props
+  const { articles, openArticle, openArticleId } = props
 
   const articleItems = articles.map(article => (
     <li key = {article.id}>
       <Article
         article = {article}
-        isOpen = {article.id === openArticleId && openArticleId !== prevArticleId}
+        isOpen = {article.id === openArticleId}
         toggleOpen = {openArticle(article.id)}
       />
     </li>
@@ -25,8 +25,7 @@ const ArticleList = props => {
 ArticleList.propTypes = {
   articles: PropTypes.arrayOf(PropTypes.object).isRequired,
   openArticle: PropTypes.func.isRequired,
-  openArticleId: PropTypes.string,
-  prevArticleId: PropTypes.string
+  openArticleId: PropTypes.string
 }
 
 export default accordion(ArticleList)

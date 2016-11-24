@@ -1,5 +1,7 @@
 import React from 'react'
 
+let prevArticleId = null
+
 export default (Component) => class Accordion extends React.Component {
   state = {
     prevArticleId: null,
@@ -7,14 +9,15 @@ export default (Component) => class Accordion extends React.Component {
   }
 
   openArticle = id => ev => {
-    const { openArticleId, prevArticleId } = this.state
-
     this.setState({
-      openArticleId: id,
-      prevArticleId: openArticleId === prevArticleId
+      openArticleId: id === prevArticleId
         ? null
-        : openArticleId
+        : id
     })
+
+    prevArticleId = id === prevArticleId
+      ? null
+      : id
   }
 
   render() {
