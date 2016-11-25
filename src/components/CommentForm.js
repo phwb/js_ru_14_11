@@ -13,8 +13,6 @@ export default class CommentForm extends Component {
   }
 
   render () {
-    console.log(this.state)
-
     return (
       <table style={{marginTop: '10px'}}>
         <tbody>
