@@ -11,29 +11,6 @@ class ArticleList extends Component {
         toggleOpenItem: PropTypes.func.isRequired
     }
 
-    componentWillMount() {
-        console.log('---', 'mounting')
-    }
-
-    componentDidMount() {
-        console.log('---', 'mounted', this.containerRef)
-        console.log('---', this.refs)
-    }
-
-    componentWillReceiveProps(nexProps) {
-        //console.log('isEqual', Object.keys(nexProps).every(key => nexProps[key] == this.props[key]))
-        //console.log('---', 'AL receiving props')
-    }
-
-    componentWillUpdate() {
-        //console.log('---', 'AL will update')
-    }
-
-    getContainerRef = ref => {
-        this.containerRef = ref
-    }
-
-
     render() {
         const { articles, isOpen, toggleOpenItem } = this.props
 
@@ -48,7 +25,7 @@ class ArticleList extends Component {
         ))
 
         return (
-            <ul ref = {this.getContainerRef}>
+            <ul>
                 {articleItems}
             </ul>
         )
@@ -60,7 +37,8 @@ export default connect(state => {
     const selected = filters.selected
     const { from, to } = filters.dateRange
 
-    const filteredArticles = articles.filter(article => {
+    // TODO как то научиться работать с объектом, а не преобразовывать его в массив
+    const filteredArticles = articles.toArray().filter(article => {
         const published = Date.parse(article.date)
         return (!selected.length || selected.includes(article.id)) &&
             (!from || !to || (published > from && published < to))
