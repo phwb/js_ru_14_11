@@ -1,4 +1,4 @@
-import {  } from '../constants'
+import { SUBMIT_FORM } from '../constants'
 import { normalizedComments } from '../fixtures'
 import { Map } from 'immutable'
 
@@ -10,7 +10,12 @@ export default (comments = defaultComments, action) => {
     const { type, payload, response, error } = action
 
     switch (type) {
-
+        case SUBMIT_FORM:
+            return comments.set(payload.id, {
+                id: payload.id,
+                user: payload.user,
+                text: payload.comment
+            })
     }
 
     return comments

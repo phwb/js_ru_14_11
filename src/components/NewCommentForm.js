@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
+import { changeText, submitForm } from '../AC/form'
 
 class NewCommentForm extends Component {
     state = {
@@ -7,30 +9,41 @@ class NewCommentForm extends Component {
     }
 
     handleChange = field => ev => {
-        if (ev.target.value.length > 5) return
-        this.setState({
+        const { changeText } = this.props
+
+        changeText({
             [field]: ev.target.value
         })
     }
 
     handleSubmit = ev => {
-        ev.preventDefault()
-        console.log('---', 'adding comment')
-        this.setState({
+        const { articleId, formData, changeText, submitForm } = this.props
+
+        if (formData.user.length < 3 || formData.comment.length < 3) {
+            return
+        }
+
+        submitForm({...formData, articleId})
+        changeText({
             user: '',
-            text: ''
+            comment: ''
         })
+        ev.preventDefault()
     }
 
     render() {
+        const { formData } = this.props
         return (
             <form onSubmit = {this.handleSubmit}>
-                comment: <input type="text" value={this.state.text} onChange = {this.handleChange('text')}/>
-                user: <input type="text" value={this.state.user} onChange = {this.handleChange('user')}/>
+                comment: <input type="text" value={formData.comment} onChange = {this.handleChange('comment')}/>
+                user: <input type="text" value={formData.user} onChange = {this.handleChange('user')}/>
                 <input type = "submit"/>
             </form>
         )
     }
 }
 
-export default NewCommentForm
+export default connect((state, props) => ({
+    formData: state.form,
+    articleId: props.articleId
+}), { changeText, submitForm })(NewCommentForm)

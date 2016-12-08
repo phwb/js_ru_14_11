@@ -1,5 +1,5 @@
 import { normalizedArticles } from '../fixtures'
-import { DELETE_ARTICLE } from '../constants'
+import { DELETE_ARTICLE, SUBMIT_FORM } from '../constants'
 import { Map } from 'immutable'
 
 /** @const {Map} initialState */
@@ -11,6 +11,14 @@ export default (articlesState = initialState, action) => {
     switch (type) {
         case DELETE_ARTICLE:
             return articlesState.delete(payload.articleId)
+        case SUBMIT_FORM:
+            return articlesState.map(article => {
+                if (article.id === payload.articleId) {
+                    article.comments.push(payload.id)
+                }
+
+                return article
+            })
     }
 
     return articlesState
