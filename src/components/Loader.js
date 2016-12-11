@@ -1,8 +1,9 @@
 import React, { PropTypes } from 'react'
 
 function Loader(props) {
+    const text = props.text || 'Loading...'
     return (
-        <h2>Loading...</h2>
+        <h2>{text}</h2>
     )
 }
 

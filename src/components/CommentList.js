@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { addComment } from '../AC/comments'
+import { addComment, loadAllComments } from '../AC/comments'
 import Comment from './Comment'
 import toggleOpen from '../decorators/toggleOpen'
 import NewCommentForm from './NewCommentForm'
+import Loader from './Loader'
 
 class CommentList extends Component {
     static propTypes = {
-        commentIds: PropTypes.array.isRequired,
         //from connect
         comments: PropTypes.array.isRequired,
         //from toggleOpen decorator
@@ -28,6 +28,17 @@ class CommentList extends Component {
         //console.log('---', 'CL will update')
     }
 
+    componentDidMount() {
+      const {
+        comments,
+        article,
+        loadAllComments
+      } = this.props
+
+      if ( !comments.length) {
+        loadAllComments(article.comments)
+      }
+    }
 
     render() {
         return (
@@ -54,6 +65,15 @@ class CommentList extends Component {
     }
 }
 
-export default connect((state, props) => ({
-    comments: (props.article.comments || []).map(id => state.comments.get(id))
-}), { addComment })(toggleOpen(CommentList))
+export default connect((state, props) => {
+    const filteredComments = state.comments.size > 0
+        ? (props.article.comments || []).map(id => state.comments.get(id))
+        : []
+
+    return {
+        comments: filteredComments
+    }
+}, {
+  addComment,
+  loadAllComments
+})(toggleOpen(CommentList))
