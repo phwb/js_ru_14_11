@@ -20,23 +20,11 @@ class CommentList extends Component {
     }
 
 
-    componentWillReceiveProps() {
-        //console.log('---', 'CL receiving props')
-    }
+    componentWillReceiveProps(nextProps) {
+      const { isOpen, comments, loadAllComments } = this.props
 
-    componentWillUpdate() {
-        //console.log('---', 'CL will update')
-    }
-
-    componentDidMount() {
-      const {
-        comments,
-        article,
-        loadAllComments
-      } = this.props
-
-      if ( !comments.length) {
-        loadAllComments(article.comments)
+      if (nextProps.isOpen && !isOpen && !comments.length) {
+        loadAllComments()
       }
     }
 
@@ -51,8 +39,10 @@ class CommentList extends Component {
 
 
     getButton() {
-        const { comments, isOpen, toggleOpen } = this.props
-        if ( !comments.length) return <span>No comments yet</span>
+        const { isOpen, toggleOpen, loading } = this.props
+        if (loading) {
+          return <Loader text="Загрузка комментариев..." />
+        }
         return <a href="#" onClick = {toggleOpen}>{isOpen ? 'hide' : 'show'} comments</a>
     }
 
@@ -66,12 +56,14 @@ class CommentList extends Component {
 }
 
 export default connect((state, props) => {
-    const filteredComments = state.comments.size > 0
-        ? (props.article.comments || []).map(id => state.comments.get(id))
+    const { comments } = state
+    const filteredComments = comments.entities.size > 0
+        ? (props.article.comments || []).map(id => comments.entities.get(id))
         : []
 
     return {
-        comments: filteredComments
+        comments: filteredComments,
+        loading: comments.loading
     }
 }, {
   addComment,

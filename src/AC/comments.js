@@ -10,10 +10,7 @@ export function addComment(comment, articleId) {
     }
 }
 
-export const loadAllComments = (commentIds) => ({
+export const loadAllComments = () => ({
   type: LOAD_ALL_COMMENTS,
-  callAPI: '/api/comment',
-  payload: {
-    commentIds
-  }
+  callAPI: '/api/comment'
 })
