@@ -23,6 +23,7 @@ export default (comments = defaultState, action) => {
             return comments.setIn(['entities', generatedId], new CommentModel({...payload.comment, id: generatedId}))
 
       case LOAD_ALL_COMMENTS + START:
+        //сейчас ок, но подумай, как бы ты делал, если бы грузил не все сразу
         return comments.set('loading', true)
 
       case LOAD_ALL_COMMENTS + SUCCESS:
