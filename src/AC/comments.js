@@ -12,5 +12,6 @@ export function addComment(comment, articleId) {
 
 export const loadAllComments = () => ({
   type: LOAD_ALL_COMMENTS,
+  //ок, но луче было загружать не все сразу. В часте обсуждали нужный endpoint
   callAPI: '/api/comment'
 })
